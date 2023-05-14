@@ -1,4 +1,5 @@
-/* import { cells } from "./varaibles"; */
+let arrBombs = [];
+let arrOpen = [];
 
 // добавить  для игры поле
 function addContainer() {
@@ -13,19 +14,16 @@ function addCells(rows, cols) {
     let k = 1;
     for (let i = 1; i <= rows; i++) {
         for (let i = 1; i <= cols; i++) {
-            let container = document.querySelector('.container');
+            let container = document.querySelector('div');
             let cell = document.createElement('div');
             cell.classList.add('cell');
             cell.setAttribute('data-number', `${k}`);
-            /* cell.textContent = k; */
             container.append(cell);
             k++;
         }
-        
     }
-
 }
-let arrBombs = [];
+
 // закидываем 10 бомб случайно в игровое поле
 function makeBombs(numberBomb) {
     for (let i = 0; i < numberBomb; i++) {
@@ -39,7 +37,7 @@ function makeBombs(numberBomb) {
     }
     return arrBombs;
 }
-
+arrOpen = arrBombs;
 // определяем соседей клетки
 function findNeighbors(num) {
     let arrNeighbors = [];
@@ -64,29 +62,56 @@ function findNeighbors(num) {
         arrNeighbors.push(number - 11, number - 10 , number - 9, number - 1, number + 1, number + 9, number + 10, number + 11);
     }
     console.log(arrNeighbors);
-    return (arrNeighbors);
-    
+    return (arrNeighbors);    
 }
 
-//вешаем слушателя на клетку
-/* for (let cell of cells) {
-    cell.addEventListener('click', function(e) {
-        let target = e.target.dataset.number;
-        console.log(target)
-        console.log(typeof target)
-        if (arrBombs.includes(Number(target))) {
-            e.target.textContent = 'БУМ'
-        } else {
-            let neighbors = findNeighbors(target);
-            let intersection = arrBombs.filter(element => neighbors.includes(element));
-            e.target.textContent = String(intersection.length)
-        }
+//открытие клеток
+function clickCell(e) {
+    let target = e.target.dataset.number;
+    console.log(target)
+    console.log(typeof target)
+    if (arrBombs.includes(Number(target))) {
+        /* e.target.textContent = 'БУМ' */
+        playLoose()
+
         
-    });
-    
-}; */
+    } else {
+        let neighbors = findNeighbors(target);
+        let intersection = arrBombs.filter(element => neighbors.includes(element));
+        e.target.textContent = String(intersection.length)
+    }
+    arrOpen.push(target);
+    if (arrOpen.length == 100) {
+        playWin();
+    }
+}
+
+//проигрышь
+function playLoose() {
+  let container = document.querySelector('div');  
+  container.innerHTML = '';
+  let span = document.createElement('span');
+  span.classList.add('failure');
+  span.innerHTML = 'GAME OVER';
+  container.append(span);
+  /* let imgContainer = document.createElement('div');
+  imgContainer.classList.add('imgContainer');
+  container.append(imgContainer);
+  let img = document.createElement('img');
+  img.src = './assets/imgs/sadsmile.png';
+  imgContainer.append(img); */
 
 
+}
 
-export {addContainer, addCells, makeBombs, findNeighbors};
+//выйгрышь
+function playWin() {
+    let container = document.querySelector('div');  
+    container.innerHTML = '';
+    let span = document.createElement('span');
+    span.classList.add('victory');
+    span.innerHTML = 'CONGRATULATIONS YOU WIN';
+    container.append(span);
+}
+export {addContainer, addCells, makeBombs, findNeighbors, clickCell, playLoose};
 export default arrBombs;
