@@ -1,7 +1,6 @@
-/* let cells = document.querySelectorAll('.cell');
+let arrBombs = [];
+let arrOpen = [];
 
-export {cells};
- */
-/* let container = document.querySelector('.container');
+arrOpen = arrBombs;
 
-export {container}; */
+export {arrBombs, arrOpen};

@@ -1,5 +1,4 @@
-let arrBombs = [];
-let arrOpen = [];
+import {arrBombs, arrOpen} from './varaibles' 
 
 // добавить  для игры поле
 function addContainer() {
@@ -29,7 +28,7 @@ function makeBombs(numberBomb) {
     for (let i = 0; i < numberBomb; i++) {
         let j = Math.floor(Math.random() * 100) + 1;
         
-        if (!arrBombs.includes(j)){
+        if (!arrBombs.includes(j) /* || j == e.target.dataset.number */){
             arrBombs.push(j);
         } else {
             i--;
@@ -37,7 +36,6 @@ function makeBombs(numberBomb) {
     }
     return arrBombs;
 }
-arrOpen = arrBombs;
 // определяем соседей клетки
 function findNeighbors(num) {
     let arrNeighbors = [];
@@ -63,6 +61,23 @@ function findNeighbors(num) {
     }
     console.log(arrNeighbors);
     return (arrNeighbors);    
+}
+
+//открытие первой клетки, нельзя проиграть
+function clickFirstCell(e) {
+    makeBombs(10);
+    let target = e.target.dataset.number;
+    let neighbors = findNeighbors(target);
+    let intersection = arrBombs.filter(element => neighbors.includes(element));
+    e.target.textContent = String(intersection.length)
+    e.target.classList.add('opened');
+        
+    let cells = document.querySelectorAll('.cell');
+    for (let cell of cells) {
+        cell.removeEventListener('click', clickFirstCell);
+        cell.addEventListener('click', clickCell)
+    } 
+    
 }
 
 //открытие клеток
@@ -98,8 +113,6 @@ function playLoose() {
   setTimeout(() => span.innerHTML = '<img src = "fire.png">',6500);
   setTimeout(() => span.innerHTML = 'GAME OVER',7500);
 
-
-  /* span.innerHTML = 'GAME OVER'; */
   container.append(span);
 
 }
@@ -115,7 +128,6 @@ function playWin() {
 }
 
 function makeFlag(e) {
-  /* let target = e.target.dataset.number; */
   e.preventDefault();
   e.target.classList.toggle('closed');
   if (e.target.classList.contains('closed')) {
@@ -123,5 +135,4 @@ function makeFlag(e) {
   } else this.addEventListener('click', clickCell);
 }
 
-export {addContainer, addCells, makeBombs, findNeighbors, clickCell, playLoose, makeFlag};
-export default arrBombs;
+export {addContainer, addCells, makeBombs, findNeighbors, clickCell, playLoose, makeFlag, clickFirstCell};
