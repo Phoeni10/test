@@ -78,6 +78,8 @@ function clickFirstCell(e) {
     let neighbors = findNeighbors(target);
     let intersection = arrBombs.filter(element => neighbors.includes(element));
     e.target.textContent = String(intersection.length)
+    let cell = e.target;
+    makeColorNumber(cell);
     e.target.classList.add('opened');
     
     let displayBombs = document.querySelector('.displayBombs');
@@ -100,7 +102,9 @@ function clickCell(e) {
     } else {
         let neighbors = findNeighbors(target);
         let intersection = arrBombs.filter(element => neighbors.includes(element));
+        let cell = e.target;
         e.target.textContent = String(intersection.length)
+        makeColorNumber(cell)
         e.target.classList.add('opened');
     }
     if (!arrOpen.includes(target)) {
@@ -195,5 +199,26 @@ function makeDisplayFlags() {
     infoField.append(displayFlags);
     
 }
+
+function makeColorNumber(target) {
+    if (target.textContent == 1) {
+        target.classList.add('blue')
+    } else if (target.textContent == 2) {
+        target.classList.add('green')
+    }
+    else if (target.textContent == 3) {
+        target.classList.add('orange')
+    } else if (target.textContent == 4) {
+        target.classList.add('red')
+    } else if (target.textContent == 5) {
+        target.classList.add('darkblue')
+    } else if (target.textContent == 6) {
+        target.classList.add('brown')
+    } else {
+        target.classList.add('black')
+    }
+    console.log(target)
+}
+
 
 export {addContainer, addCells, makeBombs, findNeighbors, clickCell, playLoose, makeFlag, clickFirstCell, makeInfoField};
