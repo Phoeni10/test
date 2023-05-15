@@ -4,3 +4,4 @@ let arrOpen = [];
 arrOpen = arrBombs;
 
 export {arrBombs, arrOpen};
+

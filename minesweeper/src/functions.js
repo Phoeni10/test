@@ -1,5 +1,9 @@
 import {arrBombs, arrOpen} from './varaibles' 
 
+let bombs = 0;
+let flags = 0;
+
+
 // добавить  для игры поле
 function addContainer() {
     let container = document.createElement('div');
@@ -13,7 +17,7 @@ function addCells(rows, cols) {
     let k = 1;
     for (let i = 1; i <= rows; i++) {
         for (let i = 1; i <= cols; i++) {
-            let container = document.querySelector('div');
+            let container = document.querySelector('.container');
             let cell = document.createElement('div');
             cell.classList.add('cell');
             cell.setAttribute('data-number', `${k}`);
@@ -34,6 +38,7 @@ function makeBombs(numberBomb) {
             i--;
         }
     }
+    bombs = numberBomb;
     return arrBombs;
 }
 // определяем соседей клетки
@@ -67,10 +72,17 @@ function findNeighbors(num) {
 function clickFirstCell(e) {
     makeBombs(10);
     let target = e.target.dataset.number;
+    arrOpen.push(target);
+    console.log(arrOpen);
+    console.log(arrBombs);
     let neighbors = findNeighbors(target);
     let intersection = arrBombs.filter(element => neighbors.includes(element));
     e.target.textContent = String(intersection.length)
     e.target.classList.add('opened');
+    
+    let displayBombs = document.querySelector('.displayBombs');
+    displayBombs.innerHTML = `Bombs: ${bombs}`;
+    
         
     let cells = document.querySelectorAll('.cell');
     for (let cell of cells) {
@@ -91,8 +103,12 @@ function clickCell(e) {
         e.target.textContent = String(intersection.length)
         e.target.classList.add('opened');
     }
-    arrOpen.push(target);
-    if (arrOpen.length == 100) {
+    if (!arrOpen.includes(target)) {
+        arrOpen.push(target);
+    }
+    console.log(arrOpen);
+    console.log(arrBombs);
+    if (arrOpen.length == 100 || arrOpen.length == 100 & flags == 10) {
         playWin();
     } 
     this.removeEventListener('click', clickCell);
@@ -100,7 +116,7 @@ function clickCell(e) {
 
 //проигрышь
 function playLoose() {
-  let container = document.querySelector('div');  
+  let container = document.querySelector('.container');  
   container.innerHTML = '';
   let span = document.createElement('span');
   span.classList.add('failure');
@@ -126,13 +142,58 @@ function playWin() {
     span.innerHTML = 'CONGRATULATIONS YOU WIN';
     container.append(span);
 }
-
+// установка флажков
 function makeFlag(e) {
   e.preventDefault();
   e.target.classList.toggle('closed');
   if (e.target.classList.contains('closed')) {
+    bombs -= 1;
+    flags += 1;
+    let displayBombs = document.querySelector('.displayBombs');
+    displayBombs.innerHTML = `Bombs: ${bombs}`;
+
+    let displayFlags = document.querySelector('.displayFlags');
+    displayFlags.innerHTML = `Flags: ${flags}`;
     this.removeEventListener('click', clickCell);
-  } else this.addEventListener('click', clickCell);
+  } else {
+    bombs += 1;
+    flags -= 1;
+    let displayFlags = document.querySelector('.displayFlags');
+    displayFlags.innerHTML = `Flags: ${flags}`;
+    let displayBombs = document.querySelector('.displayBombs');
+    displayBombs.innerHTML = `Bombs: ${bombs}`;
+    this.addEventListener('click', clickCell)
+  };
 }
 
-export {addContainer, addCells, makeBombs, findNeighbors, clickCell, playLoose, makeFlag, clickFirstCell};
+//размещение инфомационного поля
+function makeInfoField() {
+    let infoField = document.createElement('div');
+    infoField.classList.add('infofield');
+    let body = document.querySelector('body');
+    body.append(infoField);
+    makeDisplayBombs();
+    makeDisplayFlags();
+}
+
+//дисплей оставшихся мин
+function makeDisplayBombs() {
+    let infoField = document.querySelector('.infofield');
+    let displayBombs = document.createElement('div');
+    displayBombs.classList.add('displayBombs');
+    displayBombs.innerHTML = `Bombs: ${bombs}`;
+    infoField.append(displayBombs);
+
+}
+
+//дисплей установленных флажков
+function makeDisplayFlags() {
+    let infoField = document.querySelector('.infofield');
+    let displayFlags = document.createElement('div');
+    displayFlags.classList.add('displayFlags');
+    displayFlags.innerHTML = `Flags: ${flags}`;
+    infoField.append(displayFlags);
+    
+}
+
+export {addContainer, addCells, makeBombs, findNeighbors, clickCell, playLoose, makeFlag, clickFirstCell, makeInfoField};

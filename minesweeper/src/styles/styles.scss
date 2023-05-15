@@ -11,6 +11,19 @@
     margin: 0 auto;
 }
 
+.infofield {
+    width: 202px;
+    border: 1px solid red;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.displayBombs,
+.displayFlags {
+    border: 1px solid green;
+}
 .cell {
     width: 20px;
     height: 20px;
