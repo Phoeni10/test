@@ -74,11 +74,12 @@ function clickCell(e) {
         let neighbors = findNeighbors(target);
         let intersection = arrBombs.filter(element => neighbors.includes(element));
         e.target.textContent = String(intersection.length)
+        e.target.classList.add('opened');
     }
     arrOpen.push(target);
     if (arrOpen.length == 100) {
         playWin();
-    }
+    } 
     this.removeEventListener('click', clickCell);
 }
 
@@ -117,7 +118,9 @@ function makeFlag(e) {
   /* let target = e.target.dataset.number; */
   e.preventDefault();
   e.target.classList.toggle('closed');
-  this.removeEventListener('click', clickCell);
+  if (e.target.classList.contains('closed')) {
+    this.removeEventListener('click', clickCell);
+  } else this.addEventListener('click', clickCell);
 }
 
 export {addContainer, addCells, makeBombs, findNeighbors, clickCell, playLoose, makeFlag};
