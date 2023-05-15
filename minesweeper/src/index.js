@@ -1,7 +1,7 @@
 import './styles/styles.css'
 import './styles/styles.scss'
 import arrBombs from './functions';
-import { addContainer, addCells, makeBombs, findNeighbors, clickCell, playLoose } from './functions'
+import { addContainer, addCells, makeBombs, clickCell, makeFlag} from './functions'
 
 
 addContainer();
@@ -11,4 +11,8 @@ let cells = document.querySelectorAll('.cell');
 
 for (let cell of cells) {
     cell.addEventListener('click', clickCell)
+};
+
+for (let cell of cells) {
+    cell.addEventListener('contextmenu', makeFlag)
 };

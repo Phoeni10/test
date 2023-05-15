@@ -68,13 +68,8 @@ function findNeighbors(num) {
 //открытие клеток
 function clickCell(e) {
     let target = e.target.dataset.number;
-    console.log(target)
-    console.log(typeof target)
     if (arrBombs.includes(Number(target))) {
-        /* e.target.textContent = 'БУМ' */
         playLoose()
-
-        
     } else {
         let neighbors = findNeighbors(target);
         let intersection = arrBombs.filter(element => neighbors.includes(element));
@@ -84,6 +79,7 @@ function clickCell(e) {
     if (arrOpen.length == 100) {
         playWin();
     }
+    this.removeEventListener('click', clickCell);
 }
 
 //проигрышь
@@ -92,15 +88,18 @@ function playLoose() {
   container.innerHTML = '';
   let span = document.createElement('span');
   span.classList.add('failure');
-  span.innerHTML = 'GAME OVER';
-  container.append(span);
-  /* let imgContainer = document.createElement('div');
-  imgContainer.classList.add('imgContainer');
-  container.append(imgContainer);
-  let img = document.createElement('img');
-  img.src = './assets/imgs/sadsmile.png';
-  imgContainer.append(img); */
 
+  span.innerHTML = '<img src = "bomb.png">';
+  let a = setInterval(() => span.innerHTML = '', 1000);
+  
+  let b = setInterval(() => span.innerHTML = '<img src = "bomb.png">', 2000);
+  setTimeout(() => { clearInterval(a); clearInterval(b); }, 6000);
+  setTimeout(() => span.innerHTML = '<img src = "fire.png">',6500);
+  setTimeout(() => span.innerHTML = 'GAME OVER',7500);
+
+
+  /* span.innerHTML = 'GAME OVER'; */
+  container.append(span);
 
 }
 
@@ -113,5 +112,13 @@ function playWin() {
     span.innerHTML = 'CONGRATULATIONS YOU WIN';
     container.append(span);
 }
-export {addContainer, addCells, makeBombs, findNeighbors, clickCell, playLoose};
+
+function makeFlag(e) {
+  /* let target = e.target.dataset.number; */
+  e.preventDefault();
+  e.target.classList.toggle('closed');
+  this.removeEventListener('click', clickCell);
+}
+
+export {addContainer, addCells, makeBombs, findNeighbors, clickCell, playLoose, makeFlag};
 export default arrBombs;
