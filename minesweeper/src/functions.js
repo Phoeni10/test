@@ -81,6 +81,7 @@ function clickFirstCell(e) {
     let cell = e.target;
     makeColorNumber(cell);
     e.target.classList.add('opened');
+    e.target.classList.add('first');// проверка срабаттываения первого клика, потом убрать
     
     let displayBombs = document.querySelector('.displayBombs');
     displayBombs.innerHTML = `Bombs: ${bombs}`;
@@ -220,5 +221,32 @@ function makeColorNumber(target) {
     console.log(target)
 }
 
+//добавление кнопки для рестарта новой игры
+function makeBtnNewGame() {
+    let infoField = document.createElement('div');
+    infoField.classList.add('infofield');
+    let body = document.querySelector('body');
+    body.append(infoField);
+    let button = document.createElement('button');
+    button.classList.add('btnNewGame');
+    button.textContent = 'New Game';
+    infoField.append(button);
 
-export {addContainer, addCells, makeBombs, findNeighbors, clickCell, playLoose, makeFlag, clickFirstCell, makeInfoField};
+}
+
+//рестарт игры кнопкой
+function restartNewGame() {
+    let container = document.querySelector('.container');
+    container.innerHTML = '';
+    addCells(10, 10);
+    let cells = document.querySelectorAll('.cell');
+    for (let cell of cells) {
+        cell.addEventListener('click', clickFirstCell)
+    };
+    
+    for (let cell of cells) {
+        cell.addEventListener('contextmenu', makeFlag)
+    };
+}
+
+export {addContainer, addCells, makeBombs, findNeighbors, clickCell, playLoose, makeFlag, clickFirstCell, makeInfoField, makeBtnNewGame, restartNewGame};
