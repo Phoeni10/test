@@ -2,6 +2,9 @@ import {arrBombs, arrOpen} from './varaibles'
 
 let bombs = 0;
 let flags = 0;
+let time = 0;
+let clicks = 0;
+let timerID;
 
 
 // добавить  для игры поле
@@ -71,6 +74,7 @@ function findNeighbors(num) {
 //открытие первой клетки, нельзя проиграть
 function clickFirstCell(e) {
     makeBombs(10);
+    startTimer();
     let target = e.target.dataset.number;
     arrOpen.push(target);
     console.log(arrOpen);
@@ -91,13 +95,19 @@ function clickFirstCell(e) {
     for (let cell of cells) {
         cell.removeEventListener('click', clickFirstCell);
         cell.addEventListener('click', clickCell)
-    } 
-    
+    }
+
+    let displayClicks = document.querySelector('.displayClicks');
+    clicks += 1;
+    displayClicks.innerHTML = `Clicks: ${clicks}`;
 }
 
 //открытие клеток
 function clickCell(e) {
     let target = e.target.dataset.number;
+    clicks += 1;
+    let displayClicks = document.querySelector('.displayClicks');
+    displayClicks.innerHTML = `Clicks: ${clicks}`;
     if (arrBombs.includes(Number(target))) {
         playLoose()
     } else {
@@ -238,6 +248,17 @@ function makeBtnNewGame() {
 function restartNewGame() {
     let container = document.querySelector('.container');
     container.innerHTML = '';
+    
+    time = 0;
+    let displayTime = document.querySelector('.displayTime');
+    displayTime.innerHTML = `Time: ${time}`;
+
+    clicks = 0;
+    let displayClicks = document.querySelector('.displayClicks');
+    displayClicks.innerHTML = `Clicks: ${clicks}`;
+    
+    clearInterval(timerID);
+
     addCells(10, 10);
     let cells = document.querySelectorAll('.cell');
     for (let cell of cells) {
@@ -249,4 +270,35 @@ function restartNewGame() {
     };
 }
 
-export {addContainer, addCells, makeBombs, findNeighbors, clickCell, playLoose, makeFlag, clickFirstCell, makeInfoField, makeBtnNewGame, restartNewGame};
+//добавление времени игры икол-во ходов
+function makeDisplayTimeClicks() {
+    let infoField = document.createElement('div');
+    infoField.classList.add('infofield');
+    let body = document.querySelector('body');
+    body.append(infoField);
+
+    let displayTime = document.createElement('div');
+    displayTime.classList.add('displayTime');
+    displayTime.innerHTML = `Time: ${time}`;
+    infoField.append(displayTime);
+
+    let displayClicks = document.createElement('div');
+    displayClicks.classList.add('displayClicks');
+    displayClicks.innerHTML = `Clicks: ${clicks}`;
+    infoField.append(displayClicks);
+
+}
+
+//запуск таймера
+function startTimer() {
+    let displayTime = document.querySelector('.displayTime');
+    displayTime.innerHTML = `Time: ${time}`;
+    timerID = setInterval((function(){
+        displayTime.innerHTML = `Time: ${time}`;
+        time += 1
+    }), 1000);
+}
+
+//запуск счетчика кликов
+
+export {addContainer, addCells, makeBombs, findNeighbors, clickCell, playLoose, makeFlag, clickFirstCell, makeInfoField, makeBtnNewGame, restartNewGame, makeDisplayTimeClicks, startTimer};

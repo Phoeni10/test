@@ -1,12 +1,13 @@
 import './styles/styles.css'
 import './styles/styles.scss'
-import { addContainer, addCells, makeBombs, clickCell, makeFlag, clickFirstCell, makeInfoField, makeBtnNewGame, restartNewGame} from './functions'
+import { addContainer, addCells, makeBombs, clickCell, makeFlag, clickFirstCell, makeInfoField, makeBtnNewGame, restartNewGame, makeDisplayTimeClicks, startTimer} from './functions'
 
 
 addContainer();
 makeInfoField();
 addCells(10, 10);
-makeBtnNewGame()
+makeBtnNewGame();
+makeDisplayTimeClicks();
 /* makeBombs(10); */
 let cells = document.querySelectorAll('.cell');
 let btnNewGame = document.querySelector('.btnNewGame')
