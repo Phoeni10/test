@@ -11,7 +11,8 @@
     margin: 0 auto;
 }
 
-.infofield {
+.infofield,
+.infofield2 {
     width: 202px;
     border: 1px solid red;
     margin: 0 auto;
@@ -67,4 +68,39 @@
 .first {
     background-color: yellow;
     color: red;
+}
+
+.btnSound {
+    display: inline-block;
+    width: 60px;
+    height: 25px;
+    border-radius: 10px;
+    background-color: #bfbfbf;
+    z-index: 0;
+    cursor: pointer;
+    position:relative;
+    transition-duration: 300ms;
+}
+
+.btnSound::after {
+    content: '';
+    width: 36px;
+    height: 36px;
+    border-radius: 18px;
+    background: #fff;
+    top: -6px;
+    transition-duration: 300ms;
+    box-shadow: 0 0 10px 0 #999999;
+    position: absolute;
+    z-index: 1;
+}
+
+.soundOn {
+    background: #fff;
+    box-shadow: inset 0 0 10px 0 #999999;
+}
+
+.soundOn::after {
+    left: 30px;
+    background: #118c4e
 }

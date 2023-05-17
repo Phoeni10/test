@@ -26,6 +26,18 @@ module.exports = {
         {
           from: path.resolve(__dirname, 'src/fire.png'),
           to: path.resolve(__dirname, 'dist')
+        },
+        {
+          from: path.resolve(__dirname, 'src/audio/click.mp3'),
+          to: path.resolve(__dirname, 'dist')
+        },
+        {
+          from: path.resolve(__dirname, 'src/audio/victory.mp3'),
+          to: path.resolve(__dirname, 'dist')
+        },
+        {
+          from: path.resolve(__dirname, 'src/audio/gameover.mp3'),
+          to: path.resolve(__dirname, 'dist')
         }
       ]
       
@@ -38,7 +50,7 @@ module.exports = {
         use: ['style-loader', 'css-loader']
       },
       {
-        test: /\.(png|jpg|svg|gif)$/,
+        test: /\.(png|jpg|svg|gif|mp3)$/,
         use: ['file-loader']
       },
       {

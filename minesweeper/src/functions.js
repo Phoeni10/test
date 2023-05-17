@@ -73,6 +73,11 @@ function findNeighbors(num) {
 
 //открытие первой клетки, нельзя проиграть
 function clickFirstCell(e) {
+    let btnSound = document.querySelector('.btnSound');
+    if (btnSound.classList.contains('soundOn')) {
+        audioClick();
+    }
+    
     makeBombs(10);
     startTimer();
     let target = e.target.dataset.number;
@@ -104,6 +109,10 @@ function clickFirstCell(e) {
 
 //открытие клеток
 function clickCell(e) {
+    let btnSound = document.querySelector('.btnSound');
+    if (btnSound.classList.contains('soundOn')) {
+        audioClick();
+    }
     let target = e.target.dataset.number;
     clicks += 1;
     let displayClicks = document.querySelector('.displayClicks');
@@ -131,6 +140,7 @@ function clickCell(e) {
 
 //проигрышь
 function playLoose() {
+  clearInterval(timerID);  
   let container = document.querySelector('.container');  
   container.innerHTML = '';
   let span = document.createElement('span');
@@ -145,17 +155,28 @@ function playLoose() {
   setTimeout(() => span.innerHTML = 'GAME OVER',7500);
 
   container.append(span);
+  let btnSound = document.querySelector('.btnSound');
+    if (btnSound.classList.contains('soundOn')) {
+        audioGameOver();
+    }
+  
 
 }
 
 //выйгрышь
 function playWin() {
+    clearInterval(timerID);
     let container = document.querySelector('div');  
     container.innerHTML = '';
     let span = document.createElement('span');
     span.classList.add('victory');
     span.innerHTML = 'CONGRATULATIONS YOU WIN';
     container.append(span);
+    let btnSound = document.querySelector('.btnSound');
+    if (btnSound.classList.contains('soundOn')) {
+        audioVictory();
+    }
+    
 }
 // установка флажков
 function makeFlag(e) {
@@ -234,7 +255,7 @@ function makeColorNumber(target) {
 //добавление кнопки для рестарта новой игры
 function makeBtnNewGame() {
     let infoField = document.createElement('div');
-    infoField.classList.add('infofield');
+    infoField.classList.add('infofield2');
     let body = document.querySelector('body');
     body.append(infoField);
     let button = document.createElement('button');
@@ -299,6 +320,39 @@ function startTimer() {
     }), 1000);
 }
 
-//запуск счетчика кликов
+//открытие соседних клеток, если по соседству этой клетки нету бомб
+/* function openFreeCells(e) {
+    if (e.target.textContent == 0) {
 
-export {addContainer, addCells, makeBombs, findNeighbors, clickCell, playLoose, makeFlag, clickFirstCell, makeInfoField, makeBtnNewGame, restartNewGame, makeDisplayTimeClicks, startTimer};
+    }
+} */
+
+//Добавление звуковых эфектов
+function audioClick() {
+    let audio = new Audio(); 
+    audio.src = 'click.mp3';
+    audio.autoplay = true; 
+}
+
+function audioVictory() {
+    let audio = new Audio(); 
+    audio.src = 'victory.mp3';
+    audio.autoplay = true; 
+}
+
+function audioGameOver() {
+    let audio = new Audio(); 
+    audio.src = 'gameover.mp3';
+    audio.autoplay = true; 
+}
+
+//добавление переключателя звука
+function addSoundBtn() {
+    let infoField = document.querySelector('.infofield2');
+    let btn = document.createElement('div');
+    btn.classList.add('btnSound');
+    infoField.append(btn);
+}
+
+
+export {addContainer, addCells, makeBombs, findNeighbors, clickCell, playLoose, makeFlag, clickFirstCell, makeInfoField, makeBtnNewGame, restartNewGame, makeDisplayTimeClicks, startTimer, addSoundBtn};
