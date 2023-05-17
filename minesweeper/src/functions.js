@@ -354,5 +354,104 @@ function addSoundBtn() {
     infoField.append(btn);
 }
 
+//выбор сложности игры 
+function addDifficultyGame() {
+    let infoField = document.createElement('div');
+    infoField.classList.add('infofield2');
+    let body = document.querySelector('body');
+    body.append(infoField);
 
-export {addContainer, addCells, makeBombs, findNeighbors, clickCell, playLoose, makeFlag, clickFirstCell, makeInfoField, makeBtnNewGame, restartNewGame, makeDisplayTimeClicks, startTimer, addSoundBtn};
+    let btnEasy = document.createElement('button');
+    btnEasy.classList.add('btnEasy');
+    btnEasy.textContent = 'Easy';
+    infoField.append(btnEasy);
+
+    let btnNormal = document.createElement('button');
+    btnNormal.classList.add('btnNormal');
+    btnNormal.textContent = 'Normal';
+    infoField.append(btnNormal);
+
+    let btnDifficult = document.createElement('button');
+    btnDifficult.classList.add('btnDifficult');
+    btnDifficult.textContent = 'Difficult';
+    infoField.append(btnDifficult);
+}
+
+//сложность игры
+function gameEasyMode() {
+    let container = document.querySelector('.container');
+    container.innerHTML = '';
+    
+    time = 0;
+    let displayTime = document.querySelector('.displayTime');
+    displayTime.innerHTML = `Time: ${time}`;
+
+    clicks = 0;
+    let displayClicks = document.querySelector('.displayClicks');
+    displayClicks.innerHTML = `Clicks: ${clicks}`;
+    
+    clearInterval(timerID);
+
+    addCells(10, 10);
+    let cells = document.querySelectorAll('.cell');
+    for (let cell of cells) {
+        cell.addEventListener('click', clickFirstCell)
+    };
+    
+    for (let cell of cells) {
+        cell.addEventListener('contextmenu', makeFlag)
+    };
+}
+
+function gameNormalMode() {
+    let container = document.querySelector('.container');
+    container.innerHTML = '';
+    
+    time = 0;
+    let displayTime = document.querySelector('.displayTime');
+    displayTime.innerHTML = `Time: ${time}`;
+
+    clicks = 0;
+    let displayClicks = document.querySelector('.displayClicks');
+    displayClicks.innerHTML = `Clicks: ${clicks}`;
+    
+    clearInterval(timerID);
+
+    addCells(15, 15);
+    let cells = document.querySelectorAll('.cell');
+    for (let cell of cells) {
+        cell.addEventListener('click', clickFirstCell)
+    };
+    
+    for (let cell of cells) {
+        cell.addEventListener('contextmenu', makeFlag)
+    };
+}
+
+function gameDifficultMode() {
+    let container = document.querySelector('.container');
+    container.innerHTML = '';
+    
+    time = 0;
+    let displayTime = document.querySelector('.displayTime');
+    displayTime.innerHTML = `Time: ${time}`;
+
+    clicks = 0;
+    let displayClicks = document.querySelector('.displayClicks');
+    displayClicks.innerHTML = `Clicks: ${clicks}`;
+    
+    clearInterval(timerID);
+
+    addCells(25, 25);
+    let cells = document.querySelectorAll('.cell');
+    for (let cell of cells) {
+        cell.addEventListener('click', clickFirstCell)
+    };
+    
+    for (let cell of cells) {
+        cell.addEventListener('contextmenu', makeFlag)
+    };
+}
+
+export {addContainer, addCells, makeBombs, findNeighbors, clickCell, playLoose, makeFlag, clickFirstCell,
+     makeInfoField, makeBtnNewGame, restartNewGame, makeDisplayTimeClicks, startTimer, addSoundBtn, addDifficultyGame, gameEasyMode, gameNormalMode, gameDifficultMode};
