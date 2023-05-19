@@ -268,7 +268,7 @@ function makeBtnNewGame() {
 
 //рестарт игры кнопкой
 function restartNewGame() {
-    let container = document.querySelector('.container');
+    let container = document.querySelector('#container');
     container.innerHTML = '';
     
     time = 0;
@@ -463,5 +463,38 @@ function gameDifficultMode() {
     };
 }
 
+//добавление возможности установки бомб
+//добавление инпута с кол-вом бомб
+
+function inputBombs() {
+    let infoField = document.createElement('div');
+    infoField.classList.add('infofield2');
+    let body = document.querySelector('body');
+    body.append(infoField);
+
+    let input = document.createElement('input');
+    input.id = 'input';
+    input.type = 'number';
+    input.setAttribute('min', 10);
+    input.setAttribute('max', 100);
+    let label = document.createElement('label');
+    label.classList.add('label');
+    label.setAttribute('for', 'input');
+    label.textContent = 'Range of bombs 10 - 100:';
+    infoField.append(label);
+    infoField.append(input);
+
+    let button = document.createElement('button');
+    button.classList.add('btn-bombs');
+    infoField.append(button);
+
+}
+
+function setBombs() {
+    let input = document.querySelector('#input');
+    let bombs = input.value;
+    makeBombs(bombs);
+}
+
 export {addContainer, addCells, makeBombs, findNeighbors, clickCell, playLoose, makeFlag, clickFirstCell,
-     makeInfoField, makeBtnNewGame, restartNewGame, makeDisplayTimeClicks, startTimer, addSoundBtn, addDifficultyGame, gameEasyMode, gameNormalMode, gameDifficultMode};
+     makeInfoField, makeBtnNewGame, restartNewGame, makeDisplayTimeClicks, startTimer, addSoundBtn, addDifficultyGame, gameEasyMode, gameNormalMode, gameDifficultMode, inputBombs, setBombs};

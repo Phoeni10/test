@@ -2,7 +2,7 @@ import './styles/styles.css'
 import './styles/styles.scss'
 import { addContainer, addCells, makeBombs, clickCell, makeFlag, clickFirstCell, makeInfoField, 
     makeBtnNewGame, restartNewGame, makeDisplayTimeClicks, startTimer, addSoundBtn, addDifficultyGame, 
-    gameEasyMode, gameNormalMode, gameDifficultMode} from './functions'
+    gameEasyMode, gameNormalMode, gameDifficultMode, inputBombs, setBombs} from './functions'
 let rows = 10;
 let cols = 10;
 let j = 10;
@@ -14,6 +14,7 @@ makeBtnNewGame();
 makeDisplayTimeClicks();
 addSoundBtn();
 addDifficultyGame();
+inputBombs();
 /* makeBombs(10); */
 let cells = document.querySelectorAll('.cell');
 let btnNewGame = document.querySelector('.btnNewGame');
@@ -42,3 +43,6 @@ let btnNormal = document.querySelector('.btnNormal');
 btnNormal.addEventListener('click', gameNormalMode);
 let btnDifficult = document.querySelector('.btnDifficult');
 btnDifficult.addEventListener('click', gameDifficultMode);
+
+let btnBombs = document.querySelector('.btn-bombs');
+btnBombs.addEventListener('click', setBombs);
