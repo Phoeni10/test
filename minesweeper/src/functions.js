@@ -10,17 +10,18 @@ let timerID;
 // добавить  для игры поле
 function addContainer() {
     let container = document.createElement('div');
-    container.classList.add('container');
+    container.classList.add('container10');
+    container.id = 'container';
     let body = document.querySelector('body');
     body.append(container);
 }
 
 //разбить поле на ячейки
-function addCells(rows, cols) {
+function addCells(rows, cols, j) {
     let k = 1;
     for (let i = 1; i <= rows; i++) {
         for (let i = 1; i <= cols; i++) {
-            let container = document.querySelector('.container');
+            let container = document.querySelector(`.container${j}`);
             let cell = document.createElement('div');
             cell.classList.add('cell');
             cell.setAttribute('data-number', `${k}`);
@@ -379,8 +380,11 @@ function addDifficultyGame() {
 
 //сложность игры
 function gameEasyMode() {
-    let container = document.querySelector('.container');
+    let container = document.querySelector('#container');
     container.innerHTML = '';
+    container.classList.remove('container15');
+    container.classList.remove('container25');
+    container.classList.add('container10');
     
     time = 0;
     let displayTime = document.querySelector('.displayTime');
@@ -392,7 +396,7 @@ function gameEasyMode() {
     
     clearInterval(timerID);
 
-    addCells(10, 10);
+    addCells(10, 10, 10);
     let cells = document.querySelectorAll('.cell');
     for (let cell of cells) {
         cell.addEventListener('click', clickFirstCell)
@@ -404,8 +408,11 @@ function gameEasyMode() {
 }
 
 function gameNormalMode() {
-    let container = document.querySelector('.container');
+    let container = document.querySelector('#container');
     container.innerHTML = '';
+    container.classList.remove('container10');
+    container.classList.remove('container25');
+    container.classList.add('container15');
     
     time = 0;
     let displayTime = document.querySelector('.displayTime');
@@ -417,7 +424,7 @@ function gameNormalMode() {
     
     clearInterval(timerID);
 
-    addCells(15, 15);
+    addCells(15, 15, 15);
     let cells = document.querySelectorAll('.cell');
     for (let cell of cells) {
         cell.addEventListener('click', clickFirstCell)
@@ -429,8 +436,11 @@ function gameNormalMode() {
 }
 
 function gameDifficultMode() {
-    let container = document.querySelector('.container');
+    let container = document.querySelector('#container');
     container.innerHTML = '';
+    container.classList.remove('container10');
+    container.classList.remove('container15');
+    container.classList.add('container25');
     
     time = 0;
     let displayTime = document.querySelector('.displayTime');
@@ -442,7 +452,7 @@ function gameDifficultMode() {
     
     clearInterval(timerID);
 
-    addCells(25, 25);
+    addCells(25, 25, 25);
     let cells = document.querySelectorAll('.cell');
     for (let cell of cells) {
         cell.addEventListener('click', clickFirstCell)

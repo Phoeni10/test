@@ -5,10 +5,11 @@ import { addContainer, addCells, makeBombs, clickCell, makeFlag, clickFirstCell,
     gameEasyMode, gameNormalMode, gameDifficultMode} from './functions'
 let rows = 10;
 let cols = 10;
+let j = 10;
 
 addContainer();
 makeInfoField();
-addCells(rows, cols);
+addCells(rows, cols, j);
 makeBtnNewGame();
 makeDisplayTimeClicks();
 addSoundBtn();

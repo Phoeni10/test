@@ -1,14 +1,49 @@
 * {
     box-sizing: border-box;
 }
-.container {
-    width: 202px;
-    height: 201px;
+.container10 {
+    /* width: 202px;
+    height: 201px; */
+    max-width: calc(30px*10 + 13px *1);
     border: 1px solid black;
-    display: flex;
+    /* display: flex;
 
-    flex-wrap: wrap;
+    flex-wrap: wrap; */
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 1px;
     margin: 0 auto;
+    padding: 1px;
+}
+
+.container15 {
+    /* width: 202px;
+    height: 201px; */
+    max-width: calc(30px*15 + 18px *1);
+    border: 1px solid black;
+    /* display: flex;
+
+    flex-wrap: wrap; */
+    display: grid;
+    grid-template-columns: repeat(15, 1fr);
+    gap: 1px;
+    margin: 0 auto;
+    padding: 1px;
+}
+
+.container25 {
+    /* width: 202px;
+    height: 201px; */
+    max-width: calc(30px*25 + 28px *1);
+    border: 1px solid black;
+    /* display: flex;
+
+    flex-wrap: wrap; */
+    display: grid;
+    grid-template-columns: repeat(25, 1fr);
+    gap: 1px;
+    margin: 0 auto;
+    padding: 1px;
 }
 
 .infofield,
@@ -26,8 +61,8 @@
     border: 1px solid green;
 }
 .cell {
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
     border: 1px solid red;
 }
 
