@@ -1,7 +1,7 @@
 let arrBombs = [];
-let arrOpen = [];
+let arrOpen = [...arrBombs];
 
-arrOpen = arrBombs;
+/* arrOpen = arrBombs; */
 
 export {arrBombs, arrOpen};
 

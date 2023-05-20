@@ -1,27 +1,41 @@
-import {arrBombs, arrOpen} from './varaibles' 
+let arrBombs = [];
+let arrOpen = [...arrBombs];
 
-let bombs = 0;
+let counterBombs = localStorage.getItem('bombs');
 let flags = 0;
 let time = 0;
 let clicks = 0;
 let timerID;
 
+55555555555555555555555555
+
+2222222222222222222222222222222222222222222222
+222
+1111111111111111111111111111111
+7777777777777777777777777777777777777777
+
+let body = document.querySelector('body');
+
+
+11111111111111111111111111111111111111
+
+
 
 // добавить  для игры поле
-function addContainer() {
+function addContainer(j) {
     let container = document.createElement('div');
-    container.classList.add('container10');
+    container.classList.add(`container${j}`);
     container.id = 'container';
-    let body = document.querySelector('body');
+    
     body.append(container);
 }
 
 //разбить поле на ячейки
-function addCells(rows, cols, j) {
+function addCells(rows, cols) {
     let k = 1;
     for (let i = 1; i <= rows; i++) {
         for (let i = 1; i <= cols; i++) {
-            let container = document.querySelector(`.container${j}`);
+            let container = document.querySelector("#container");
             let cell = document.createElement('div');
             cell.classList.add('cell');
             cell.setAttribute('data-number', `${k}`);
@@ -42,7 +56,7 @@ function makeBombs(numberBomb) {
             i--;
         }
     }
-    bombs = numberBomb;
+    /* bombs = numberBomb; */
     return arrBombs;
 }
 // определяем соседей клетки
@@ -78,13 +92,12 @@ function clickFirstCell(e) {
     if (btnSound.classList.contains('soundOn')) {
         audioClick();
     }
-    
-    makeBombs(10);
+    let bombs = localStorage.getItem('bombs');
+    makeBombs(bombs);
     startTimer();
     let target = e.target.dataset.number;
     arrOpen.push(target);
-    console.log(arrOpen);
-    console.log(arrBombs);
+
     let neighbors = findNeighbors(target);
     let intersection = arrBombs.filter(element => neighbors.includes(element));
     e.target.textContent = String(intersection.length)
@@ -94,7 +107,7 @@ function clickFirstCell(e) {
     e.target.classList.add('first');// проверка срабаттываения первого клика, потом убрать
     
     let displayBombs = document.querySelector('.displayBombs');
-    displayBombs.innerHTML = `Bombs: ${bombs}`;
+    displayBombs.innerHTML = `Bombs: ${counterBombs}`;
     
         
     let cells = document.querySelectorAll('.cell');
@@ -142,7 +155,7 @@ function clickCell(e) {
 //проигрышь
 function playLoose() {
   clearInterval(timerID);  
-  let container = document.querySelector('.container');  
+  let container = document.querySelector('#container');  
   container.innerHTML = '';
   let span = document.createElement('span');
   span.classList.add('failure');
@@ -184,21 +197,21 @@ function makeFlag(e) {
   e.preventDefault();
   e.target.classList.toggle('closed');
   if (e.target.classList.contains('closed')) {
-    bombs -= 1;
+    counterBombs -= 1;
     flags += 1;
     let displayBombs = document.querySelector('.displayBombs');
-    displayBombs.innerHTML = `Bombs: ${bombs}`;
+    displayBombs.innerHTML = `Bombs: ${counterBombs}`;
 
     let displayFlags = document.querySelector('.displayFlags');
     displayFlags.innerHTML = `Flags: ${flags}`;
     this.removeEventListener('click', clickCell);
   } else {
-    bombs += 1;
+    counterBombs += 1;
     flags -= 1;
     let displayFlags = document.querySelector('.displayFlags');
     displayFlags.innerHTML = `Flags: ${flags}`;
     let displayBombs = document.querySelector('.displayBombs');
-    displayBombs.innerHTML = `Bombs: ${bombs}`;
+    displayBombs.innerHTML = `Bombs: ${counterBombs}`;
     this.addEventListener('click', clickCell)
   };
 }
@@ -207,7 +220,7 @@ function makeFlag(e) {
 function makeInfoField() {
     let infoField = document.createElement('div');
     infoField.classList.add('infofield');
-    let body = document.querySelector('body');
+  
     body.append(infoField);
     makeDisplayBombs();
     makeDisplayFlags();
@@ -218,7 +231,7 @@ function makeDisplayBombs() {
     let infoField = document.querySelector('.infofield');
     let displayBombs = document.createElement('div');
     displayBombs.classList.add('displayBombs');
-    displayBombs.innerHTML = `Bombs: ${bombs}`;
+    displayBombs.innerHTML = `Bombs: ${counterBombs}`;
     infoField.append(displayBombs);
 
 }
@@ -257,7 +270,7 @@ function makeColorNumber(target) {
 function makeBtnNewGame() {
     let infoField = document.createElement('div');
     infoField.classList.add('infofield2');
-    let body = document.querySelector('body');
+
     body.append(infoField);
     let button = document.createElement('button');
     button.classList.add('btnNewGame');
@@ -271,6 +284,10 @@ function restartNewGame() {
     let container = document.querySelector('#container');
     container.innerHTML = '';
     
+    counterBombs = 0;
+    let displayBombs = document.querySelector('.displayBombs');
+    displayBombs.innerHTML = `Bombs: ${counterBombs}`;
+
     time = 0;
     let displayTime = document.querySelector('.displayTime');
     displayTime.innerHTML = `Time: ${time}`;
@@ -278,6 +295,10 @@ function restartNewGame() {
     clicks = 0;
     let displayClicks = document.querySelector('.displayClicks');
     displayClicks.innerHTML = `Clicks: ${clicks}`;
+
+    flags = 0;
+    let displayFlags = document.querySelector('.displayFlags');
+    displayFlags.innerHTML = `Flags: ${flags}`;
     
     clearInterval(timerID);
 
@@ -285,18 +306,16 @@ function restartNewGame() {
     let cells = document.querySelectorAll('.cell');
     for (let cell of cells) {
         cell.addEventListener('click', clickFirstCell)
-    };
-    
-    for (let cell of cells) {
         cell.addEventListener('contextmenu', makeFlag)
     };
+    
 }
 
 //добавление времени игры икол-во ходов
 function makeDisplayTimeClicks() {
     let infoField = document.createElement('div');
     infoField.classList.add('infofield');
-    let body = document.querySelector('body');
+    
     body.append(infoField);
 
     let displayTime = document.createElement('div');
@@ -359,7 +378,7 @@ function addSoundBtn() {
 function addDifficultyGame() {
     let infoField = document.createElement('div');
     infoField.classList.add('infofield2');
-    let body = document.querySelector('body');
+    
     body.append(infoField);
 
     let btnEasy = document.createElement('button');
@@ -380,12 +399,47 @@ function addDifficultyGame() {
 
 //сложность игры
 function gameEasyMode() {
-    let container = document.querySelector('#container');
-    container.innerHTML = '';
-    container.classList.remove('container15');
-    container.classList.remove('container25');
-    container.classList.add('container10');
+    arrOpen = [];
+    arrBombs = [];
+    if (document.querySelector('.btnNewGame')) {
+        let cells = document.querySelectorAll('.cell');
+        let btnNewGame = document.querySelector('.btnNewGame');
+        let btnSound = document.querySelector('.btnSound');
+        let btnEasy = document.querySelector('.btnEasy');
+        let btnNormal = document.querySelector('.btnNormal');
+        let btnDifficult = document.querySelector('.btnDifficult');
+        let btnBombs = document.querySelector('.btn-bombs');
+
+        for (let cell of cells) {
+            cell.removeEventListener('click', clickFirstCell)
+            cell.removeEventListener('click', clickCell)
+            cell.removeEventListener('contextmenu', makeFlag)
+        };
+        btnNewGame.removeEventListener('click', restartNewGame)
+        
+        btnSound.removeEventListener('click', () => btnSound.classList.toggle('soundOn'));
+        btnEasy.removeEventListener('click', gameEasyMode);
+        btnNormal.removeEventListener('click', gameNormalMode);
+        btnDifficult.removeEventListener('click', gameDifficultMode);
+        btnBombs.removeEventListener('click', setBombs);
+    }
+
     
+    body.innerHTML = '';
+    addContainer(10);
+    makeInfoField();
+    addCells(10, 10);
+    makeBtnNewGame();
+    makeDisplayTimeClicks();
+    addSoundBtn();
+    addDifficultyGame();
+    inputBombs();
+  
+    counterBombs = localStorage.getItem('bombs');
+    let displayBombs = document.querySelector('.displayBombs');
+    displayBombs.innerHTML = `Bombs: ${counterBombs}`;
+
+    clearInterval(timerID);
     time = 0;
     let displayTime = document.querySelector('.displayTime');
     displayTime.innerHTML = `Time: ${time}`;
@@ -393,27 +447,84 @@ function gameEasyMode() {
     clicks = 0;
     let displayClicks = document.querySelector('.displayClicks');
     displayClicks.innerHTML = `Clicks: ${clicks}`;
-    
-    clearInterval(timerID);
 
-    addCells(10, 10, 10);
+    flags = 0;
+    let displayFlags = document.querySelector('.displayFlags');
+    displayFlags.innerHTML = `Flags: ${flags}`;
+
     let cells = document.querySelectorAll('.cell');
+    let btnNewGame = document.querySelector('.btnNewGame');
+    let btnSound = document.querySelector('.btnSound');
+    let btnEasy = document.querySelector('.btnEasy');
+    let btnNormal = document.querySelector('.btnNormal');
+    let btnDifficult = document.querySelector('.btnDifficult');
+    let btnBombs = document.querySelector('.btn-bombs');
+
+    btnNewGame.addEventListener('click', restartNewGame)
+
     for (let cell of cells) {
         cell.addEventListener('click', clickFirstCell)
-    };
-    
-    for (let cell of cells) {
         cell.addEventListener('contextmenu', makeFlag)
     };
+
+    
+
+    btnSound.addEventListener('click', () => btnSound.classList.toggle('soundOn'));
+ 
+    btnEasy.addEventListener('click', gameEasyMode);
+    
+    btnNormal.addEventListener('click', gameNormalMode);
+    
+    btnDifficult.addEventListener('click', gameDifficultMode);
+ 
+    btnBombs.addEventListener('click', setBombs);
+
+    console.log('easy')
+    localStorage.setItem('game-mode', 'easy');
 }
 
 function gameNormalMode() {
-    let container = document.querySelector('#container');
-    container.innerHTML = '';
-    container.classList.remove('container10');
-    container.classList.remove('container25');
-    container.classList.add('container15');
+    arrOpen = [];
+    arrBombs = [];
+    if (document.querySelector('.btnNewGame')) {
+        let cells = document.querySelectorAll('.cell');
+        let btnNewGame = document.querySelector('.btnNewGame');
+        let btnSound = document.querySelector('.btnSound');
+        let btnEasy = document.querySelector('.btnEasy');
+        let btnNormal = document.querySelector('.btnNormal');
+        let btnDifficult = document.querySelector('.btnDifficult');
+        let btnBombs = document.querySelector('.btn-bombs');
+
+        for (let cell of cells) {
+            cell.removeEventListener('click', clickFirstCell)
+            cell.removeEventListener('click', clickCell)
+            cell.removeEventListener('contextmenu', makeFlag)
+        };
+        btnNewGame.removeEventListener('click', restartNewGame)
+        
+        btnSound.removeEventListener('click', () => btnSound.classList.toggle('soundOn'));
+        btnEasy.removeEventListener('click', gameEasyMode);
+        btnNormal.removeEventListener('click', gameNormalMode);
+        btnDifficult.removeEventListener('click', gameDifficultMode);
+        btnBombs.removeEventListener('click', setBombs);
+    }
+
     
+    body.innerHTML = '';
+    addContainer(15);
+    makeInfoField();
+    addCells(15, 15);
+    makeBtnNewGame();
+    makeDisplayTimeClicks();
+    addSoundBtn();
+    addDifficultyGame();
+    inputBombs();
+
+    counterBombs = localStorage.getItem('bombs');
+    let displayBombs = document.querySelector('.displayBombs');
+    displayBombs.innerHTML = `Bombs: ${counterBombs}`;
+
+    clearInterval(timerID);    
     time = 0;
     let displayTime = document.querySelector('.displayTime');
     displayTime.innerHTML = `Time: ${time}`;
@@ -421,27 +532,83 @@ function gameNormalMode() {
     clicks = 0;
     let displayClicks = document.querySelector('.displayClicks');
     displayClicks.innerHTML = `Clicks: ${clicks}`;
-    
-    clearInterval(timerID);
 
-    addCells(15, 15, 15);
+    flags = 0;
+    let displayFlags = document.querySelector('.displayFlags');
+    displayFlags.innerHTML = `Flags: ${flags}`;
+
     let cells = document.querySelectorAll('.cell');
+    let btnNewGame = document.querySelector('.btnNewGame');
+    let btnSound = document.querySelector('.btnSound');
+    let btnEasy = document.querySelector('.btnEasy');
+    let btnNormal = document.querySelector('.btnNormal');
+    let btnDifficult = document.querySelector('.btnDifficult');
+    let btnBombs = document.querySelector('.btn-bombs');
+
+    btnNewGame.addEventListener('click', restartNewGame)
+
     for (let cell of cells) {
         cell.addEventListener('click', clickFirstCell)
-    };
-    
-    for (let cell of cells) {
         cell.addEventListener('contextmenu', makeFlag)
     };
+
+    
+    btnSound.addEventListener('click', () => btnSound.classList.toggle('soundOn'));
+ 
+    btnEasy.addEventListener('click', gameEasyMode);
+    
+    btnNormal.addEventListener('click', gameNormalMode);
+    
+    btnDifficult.addEventListener('click', gameDifficultMode);
+ 
+    btnBombs.addEventListener('click', setBombs);
+
+    console.log('norm')
+    localStorage.setItem('game-mode', 'normal');
 }
 
 function gameDifficultMode() {
-    let container = document.querySelector('#container');
-    container.innerHTML = '';
-    container.classList.remove('container10');
-    container.classList.remove('container15');
-    container.classList.add('container25');
+    arrOpen = [];
+    arrBombs = [];
+    if (document.querySelector('.btnNewGame')) {
+        let cells = document.querySelectorAll('.cell');
+        let btnNewGame = document.querySelector('.btnNewGame');
+        let btnSound = document.querySelector('.btnSound');
+        let btnEasy = document.querySelector('.btnEasy');
+        let btnNormal = document.querySelector('.btnNormal');
+        let btnDifficult = document.querySelector('.btnDifficult');
+        let btnBombs = document.querySelector('.btn-bombs');
+
+        for (let cell of cells) {
+            cell.removeEventListener('click', clickFirstCell)
+            cell.removeEventListener('click', clickCell)
+            cell.removeEventListener('contextmenu', makeFlag)
+        };
+        btnNewGame.removeEventListener('click', restartNewGame)
+        
+        btnSound.removeEventListener('click', () => btnSound.classList.toggle('soundOn'));
+        btnEasy.removeEventListener('click', gameEasyMode);
+        btnNormal.removeEventListener('click', gameNormalMode);
+        btnDifficult.removeEventListener('click', gameDifficultMode);
+        btnBombs.removeEventListener('click', setBombs);
+    }
+
     
+    body.innerHTML = '';
+    addContainer(25);
+    makeInfoField();
+    addCells(25, 25);
+    makeBtnNewGame();
+    makeDisplayTimeClicks();
+    addSoundBtn();
+    addDifficultyGame();
+    inputBombs();
+
+    counterBombs = localStorage.getItem('bombs');
+    let displayBombs = document.querySelector('.displayBombs');
+    displayBombs.innerHTML = `Bombs: ${counterBombs}`;
+
+    clearInterval(timerID);
     time = 0;
     let displayTime = document.querySelector('.displayTime');
     displayTime.innerHTML = `Time: ${time}`;
@@ -449,18 +616,40 @@ function gameDifficultMode() {
     clicks = 0;
     let displayClicks = document.querySelector('.displayClicks');
     displayClicks.innerHTML = `Clicks: ${clicks}`;
-    
-    clearInterval(timerID);
 
-    addCells(25, 25, 25);
+    flags = 0;
+    let displayFlags = document.querySelector('.displayFlags');
+    displayFlags.innerHTML = `Flags: ${flags}`;
+ 
     let cells = document.querySelectorAll('.cell');
+    let btnNewGame = document.querySelector('.btnNewGame');
+    let btnSound = document.querySelector('.btnSound');
+    let btnEasy = document.querySelector('.btnEasy');
+    let btnNormal = document.querySelector('.btnNormal');
+    let btnDifficult = document.querySelector('.btnDifficult');
+    let btnBombs = document.querySelector('.btn-bombs');
+
+    btnNewGame.addEventListener('click', restartNewGame)
+
     for (let cell of cells) {
         cell.addEventListener('click', clickFirstCell)
-    };
-    
-    for (let cell of cells) {
         cell.addEventListener('contextmenu', makeFlag)
     };
+
+
+    btnSound.addEventListener('click', () => btnSound.classList.toggle('soundOn'));
+ 
+    btnEasy.addEventListener('click', gameEasyMode);
+    
+    btnNormal.addEventListener('click', gameNormalMode);
+    
+    btnDifficult.addEventListener('click', gameDifficultMode);
+ 
+    btnBombs.addEventListener('click', setBombs);
+
+    console.log('dif')
+    
+    localStorage.setItem('game-mode', 'difficult');
 }
 
 //добавление возможности установки бомб
@@ -469,7 +658,7 @@ function gameDifficultMode() {
 function inputBombs() {
     let infoField = document.createElement('div');
     infoField.classList.add('infofield2');
-    let body = document.querySelector('body');
+    
     body.append(infoField);
 
     let input = document.createElement('input');
@@ -494,7 +683,19 @@ function setBombs() {
     let input = document.querySelector('#input');
     let bombs = input.value;
     makeBombs(bombs);
+    localStorage.setItem('bombs', bombs);
+}
+
+//закгрузка сложности игры (при обновлении страницы и при нажатии кнопки сложности игры)
+function loadGame() {
+    if (localStorage.getItem('game-mode') == 'easy') {
+        gameEasyMode()
+    } else if (localStorage.getItem('game-mode') == 'normal') {
+        gameNormalMode()
+    } else if (localStorage.getItem('game-mode') == 'difficult') {
+        gameDifficultMode()
+    }
 }
 
 export {addContainer, addCells, makeBombs, findNeighbors, clickCell, playLoose, makeFlag, clickFirstCell,
-     makeInfoField, makeBtnNewGame, restartNewGame, makeDisplayTimeClicks, startTimer, addSoundBtn, addDifficultyGame, gameEasyMode, gameNormalMode, gameDifficultMode, inputBombs, setBombs};
+     makeInfoField, makeBtnNewGame, restartNewGame, makeDisplayTimeClicks, startTimer, addSoundBtn, addDifficultyGame, gameEasyMode, gameNormalMode, gameDifficultMode, inputBombs, setBombs, loadGame};
