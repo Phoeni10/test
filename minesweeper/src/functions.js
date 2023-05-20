@@ -682,8 +682,9 @@ function inputBombs() {
 function setBombs() {
     let input = document.querySelector('#input');
     let bombs = input.value;
-    makeBombs(bombs);
+    
     localStorage.setItem('bombs', bombs);
+    location.reload()
 }
 
 //закгрузка сложности игры (при обновлении страницы и при нажатии кнопки сложности игры)
