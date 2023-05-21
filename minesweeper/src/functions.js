@@ -1,3 +1,5 @@
+import {saveLastResults, saveResults, showResults, makeBtnResult} from './save';
+
 let arrBombs = [];
 let arrOpen = [...arrBombs];
 
@@ -7,19 +9,9 @@ let time = 0;
 let clicks = 0;
 let timerID;
 
-55555555555555555555555555
 
-2222222222222222222222222222222222222222222222
-222
-1111111111111111111111111111111
-7777777777777777777777777777777777777777
 
 let body = document.querySelector('body');
-
-
-11111111111111111111111111111111111111
-
-
 
 // добавить  для игры поле
 function addContainer(j) {
@@ -128,6 +120,7 @@ function clickCell(e) {
         audioClick();
     }
     let target = e.target.dataset.number;
+    console.log(target);
     clicks += 1;
     let displayClicks = document.querySelector('.displayClicks');
     displayClicks.innerHTML = `Clicks: ${clicks}`;
@@ -179,7 +172,7 @@ function playLoose() {
 
 //выйгрышь
 function playWin() {
-    clearInterval(timerID);
+    
     let container = document.querySelector('div');  
     container.innerHTML = '';
     let span = document.createElement('span');
@@ -190,6 +183,8 @@ function playWin() {
     if (btnSound.classList.contains('soundOn')) {
         audioVictory();
     }
+    saveResults();
+    clearInterval(timerID);
     
 }
 // установка флажков
@@ -434,6 +429,7 @@ function gameEasyMode() {
     addSoundBtn();
     addDifficultyGame();
     inputBombs();
+    makeBtnResult()
   
     counterBombs = localStorage.getItem('bombs');
     let displayBombs = document.querySelector('.displayBombs');
@@ -519,6 +515,7 @@ function gameNormalMode() {
     addSoundBtn();
     addDifficultyGame();
     inputBombs();
+    makeBtnResult()
 
     counterBombs = localStorage.getItem('bombs');
     let displayBombs = document.querySelector('.displayBombs');
@@ -603,6 +600,7 @@ function gameDifficultMode() {
     addSoundBtn();
     addDifficultyGame();
     inputBombs();
+    makeBtnResult()
 
     counterBombs = localStorage.getItem('bombs');
     let displayBombs = document.querySelector('.displayBombs');
@@ -699,4 +697,4 @@ function loadGame() {
 }
 
 export {addContainer, addCells, makeBombs, findNeighbors, clickCell, playLoose, makeFlag, clickFirstCell,
-     makeInfoField, makeBtnNewGame, restartNewGame, makeDisplayTimeClicks, startTimer, addSoundBtn, addDifficultyGame, gameEasyMode, gameNormalMode, gameDifficultMode, inputBombs, setBombs, loadGame};
+     makeInfoField, makeBtnNewGame, restartNewGame, makeDisplayTimeClicks, startTimer, addSoundBtn, addDifficultyGame, gameEasyMode, gameNormalMode, gameDifficultMode, inputBombs, setBombs, loadGame, saveLastResults};
